@@ -5,12 +5,19 @@ import {Leader} from '../shared/leader';
 export class CorporateLeaderService {
 
   constructor() { }
-  getLeaders() :Leader[]{
-    return LEADERS;
+  getLeaders() :Promise<Leader[]>{
+    return new Promise(resolve=> {
+      // Simulate server latency with 2 second delay
+        setTimeout(() => resolve(LEADERS), 2000);
+    });
+   
   }
 
-  getFeaturedCorporateLeader() :Leader{
-    return LEADERS.filter((lead) => lead.featured)[0];
+  getFeaturedCorporateLeader() :Promise<Leader>{
+    return  new Promise(resolve=> {
+      // Simulate server latency with 2 second delay
+        setTimeout(() => resolve(LEADERS.filter((lead) => lead.featured)[0]), 2000);
+    });
   }
 
 }
