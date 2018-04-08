@@ -20,6 +20,10 @@ import { RouterModule } from '@angular/router';
 
 import {DishService} from './services/dish.service';
 import {PromotionService} from './services/promotion.service';
+import {CorporateLeaderService} from './services/corporate-leader.service';
+import { LoginComponent } from './login/login.component';
+import { ReactiveFormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms'; 
 
 @NgModule({
   declarations: [
@@ -30,18 +34,24 @@ import {PromotionService} from './services/promotion.service';
     FooterComponent,
     AboutComponent,
     HomeComponent,
-    ContactComponent
+    ContactComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
     FlexLayoutModule,
-    AppRoutingModule
-    
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [DishService,
-              PromotionService
+              PromotionService,
+              CorporateLeaderService
+  ],
+  entryComponents: [
+    LoginComponent
   ],
   bootstrap: [AppComponent]
 })
