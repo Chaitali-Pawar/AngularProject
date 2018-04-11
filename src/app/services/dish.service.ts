@@ -3,6 +3,7 @@ import { Dish } from '../shared/dish';
 import { DISHES } from '../shared/dishes';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/delay';
+
 import 'rxjs/add/observable/of';
 
 
@@ -20,4 +21,11 @@ export class DishService {
   getDish(id:number):Observable<Dish>{
     return Observable.of(DISHES.filter((dish) => (dish.id === id))[0]).delay(2000); 
   }
+
+  //  get the ids of the dish with map function which iterates through every element in dish array to return (dish)
+  // and we return another array containing only ids.
+
+  getDishIds() :Observable <number[]>{
+    return Observable.of(DISHES.map(dish => dish.id)).delay(2000);
+    }
 }
