@@ -51,6 +51,47 @@
    
   </div>
 
+  <form novalidate [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+
+       
+      <div  [hidden]= "!(commentForm.valid)">
+          Preview
+          <p> {{commentForm.value.author}} </p> 
+          <p> {{commentForm.value.rating}} </p> 
+          <p> {{commentForm.value.comment}} </p> 
+      </div>
+        <p>
+          <md-input-container class="half-width"
+           dividerColor="{{(formErrors.author) ? 'warn' : 'primary'}}">
+            <input mdInput formControlName="author" placeholder="Name" type="text" required>
+            <md-hint>
+              <span [hidden]="!(formErrors.author)">
+                {{formErrors.author}}</span>
+            </md-hint>
+          </md-input-container>
+        </p>
+        <p>
+                <md-slider  thumbLabel tickInterval="1" formControlName = "rating" min="1" max="5" step="1" value="5"></md-slider>
+
+        </p>
+        <p>
+          <md-input-container class="full-width"
+          dividerColor="{{(formErrors.comment) ? 'warn' : 'primary'}}">
+            <textarea mdInput formControlName="comment" placeholder="Your Comment" rows=2 required></textarea>
+            <md-hint>
+                    <span [hidden]="!(formErrors.comment)">
+                      {{formErrors.comment}}
+                    </span>
+            </md-hint>
+        </md-input-container>
+        </p>
+        
+        <button type="submit" md-button class="background-primary text-floral-white" [disabled]="commentForm.invalid">Submit</button>
+      </form>
+  
+
 </div>
+
+
 
 
