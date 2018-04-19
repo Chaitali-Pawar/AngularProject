@@ -23,6 +23,7 @@ export class DishDetailComponent implements OnInit {
   next :number;
   commentForm : FormGroup;
   comment :Comment;
+  errMess: string;
 
   formErrors = {
     'comment': '',
@@ -57,7 +58,8 @@ export class DishDetailComponent implements OnInit {
     // switchMap allows us to use Observable params which is set using the dish service method and then we subscribe
     // to this observable also set the prev and next , hence whenever the param changes the prev and nexr are set.
      this.route.params.switchMap((params : Params) => this.dishService.getDish(+params['id']) )
-     .subscribe(dish => {this.dish = dish; this.setPrevNext(dish.id)});
+     .subscribe(dish => {this.dish = dish; this.setPrevNext(dish.id)},
+                errmess => this.errMess = <any>errmess); 
 
     
   }
