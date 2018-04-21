@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import { Http, Response } from '@angular/http';
 import { baseURL } from '../shared/baseurl';
 import { ProcessHtppMessageServiceService } from './process-htpp-message-service.service';
+import { RestangularModule, Restangular } from 'ngx-restangular';
 
 
 import 'rxjs/add/operator/delay';
@@ -16,29 +17,34 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class DishService {
 
-    constructor(private http: Http,
+    constructor(private restangular: Restangular,private http: Http,
     private processHTTPMsgService: ProcessHtppMessageServiceService)  {
 
     }
 
       getDishes() :Observable<Dish[]>{
-        return this.http.get(baseURL + 'dishes')
+       /* return this.http.get(baseURL + 'dishes')
         .map(res => { return this.processHTTPMsgService.extractDataFromJson(res); })
-        .catch(error => {return this.processHTTPMsgService.handleError(error);});
+        .catch(error => {return this.processHTTPMsgService.handleError(error);});*/
+        return this.restangular.all('dishes').getList();
       } 
 
       getFeaturedDish():Observable<Dish> {
          // return Observable.of(DISHES.filter((dish) => dish.featured)[0]).delay(2000);
-         return this.http.get(baseURL + 'dishes?featured=true')
+        /* return this.http.get(baseURL + 'dishes?featured=true')
                           .map(res => { return this.processHTTPMsgService.extractDataFromJson(res)[0];})
-                          .catch(error => {return this.processHTTPMsgService.handleError(error);});
+                          .catch(error => {return this.processHTTPMsgService.handleError(error);});*/
+        return this.restangular.all('dishes').getList({featured: true})
+                    .map(dishes => dishes[0]);
       }
 
       getDish(id:number):Observable<Dish>{
        // return Observable.of(DISHES.filter((dish) => (dish.id === id))[0]).delay(2000); 
-       return this.http.get(baseURL + 'dishes/' +id)
+      /* return this.http.get(baseURL + 'dishes/' +id)
                         .map(res => {return this.processHTTPMsgService.extractDataFromJson(res);})
-                        .catch(error => {return this.processHTTPMsgService.handleError(error);});
+                        .catch(error => {return this.processHTTPMsgService.handleError(error);});*/
+                        
+         return  this.restangular.one('dishes',id).get();                        
       }
 
   //  get the ids of the dish with map function which iterates through every element in dish array to return (dish)
