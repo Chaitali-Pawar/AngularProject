@@ -25,7 +25,8 @@ import {DishService} from './services/dish.service';
 import {PromotionService} from './services/promotion.service';
 import {CorporateLeaderService} from './services/corporate-leader.service';
 import {ProcessHtppMessageServiceService} from './services/process-htpp-message-service.service';
-
+import {FeedBackService} from './services/feed-back.service'
+ 
 import { baseURL } from './shared/baseurl';
 
 
@@ -56,12 +57,14 @@ import { HighlightDirective } from './directives/highlight.directive';
     ReactiveFormsModule,
     HttpModule,
     RestangularModule.forRoot(RestangularConfigFactory)
+
   ],
   providers: [DishService,
               PromotionService,
               CorporateLeaderService,
               {provide :'BaseURL' , useValue:baseURL},
-              ProcessHtppMessageServiceService
+              ProcessHtppMessageServiceService,
+              FeedBackService
   ],
   entryComponents: [
     LoginComponent

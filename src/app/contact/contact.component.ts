@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Feedback, ContactType } from '../shared/feedback';
-import { flyInOut } from '../animations/app.animation';
+import { flyInOut, visibility, expand ,visibilityFormSubmission } from '../animations/app.animation';
+import {FeedBackService} from '../services/feed-back.service';
+
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
@@ -12,14 +14,26 @@ import { flyInOut } from '../animations/app.animation';
     'style': 'display: block;'
     },
     animations: [
-      flyInOut()
+      flyInOut(),
+      visibility(),
+      expand(),
+      visibilityFormSubmission()
+      
     ]
 })
 export class ContactComponent implements OnInit {
 
   feedback : Feedback;
+  feedbackResult : Feedback;
+  feedBackCopy =null;
   feedbackForm : FormGroup;
   contactType = ContactType;
+  errMsg:String;
+  feedBackSubmit :boolean;
+  visibility ='shown' ;
+  visibilityFormSubmission = 'hidden';
+  
+  
 
 
   formErrors = {
@@ -50,12 +64,13 @@ export class ContactComponent implements OnInit {
     },
   };
 
-  constructor(private fb :FormBuilder) { 
+  constructor(private fb :FormBuilder,
+              private feedBackService:FeedBackService) { 
     this.createForm();
   }
 
   ngOnInit() {
-    
+    this.feedBackSubmit = true;
   }
 
 
@@ -91,19 +106,33 @@ export class ContactComponent implements OnInit {
       }
     }
   }
+  OnFormView(){
+    setTimeout(() => {
+      this.OnReset();
+    }, 5000);
+   
+  }
 
-  onSubmit(){
+  OnReset(){
+    this.visibility = 'shown';
+    this.visibilityFormSubmission ='hidden';
+    this.feedbackResult = null;
+    this.feedbackForm.reset();
+    for (const field in this.formErrors) {
+      //clear previous error message (if any)
+     this.formErrors[field] = '';
+    } 
+  }
+  OnSubmit(){
+    this.feedBackSubmit = false;
     this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
-    this.feedbackForm.reset({
-      firstname: '',
-      lastname: '',
-      telnum: '',
-      email: '',
-      agree: false,
-      contacttype: 'None',
-      message: ''
-    });
+    this.visibility = 'hidden';
+    this.feedBackService.submitFeedBack(this.feedback).subscribe(feedback =>{ this.feedbackResult = feedback ; 
+                                        this.feedBackSubmit = true;
+                                        this.visibilityFormSubmission ='shown';
+                                        this.OnFormView()},
+                                        errMsg => this.errMsg = this.errMsg);
+    
   }
 
 
