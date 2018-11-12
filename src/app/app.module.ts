@@ -33,6 +33,7 @@ import { baseURL } from './shared/baseurl';
 import { RestangularModule, Restangular } from 'ngx-restangular';
 import { RestangularConfigFactory } from './shared/restConfig';
 import { HighlightDirective } from './directives/highlight.directive';
+import { TableTradeComponent } from './table-trade/table-trade.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { HighlightDirective } from './directives/highlight.directive';
     HomeComponent,
     ContactComponent,
     LoginComponent,
-    HighlightDirective
+    HighlightDirective,
+    TableTradeComponent
   ],
   imports: [
     BrowserModule,
